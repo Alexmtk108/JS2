@@ -63,8 +63,7 @@ function exitGame(step){
 function checkWin(flags){
 	if(flags <= 3){
 		return true;
-	}	
-	return false;
+	}		return false;
 }
 function validateStep(step){
 	if(isNaN(step)) return false;
