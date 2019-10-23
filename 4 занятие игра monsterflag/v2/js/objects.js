@@ -202,5 +202,120 @@ function checkStepIi(flags){
 // checkStepIi(21);
 
 
+function Flags(){
+	this.flags = 21;
+	this.player = false;
+	this.startred = false;
+	this.step = 0;
+}
 
+Flags.prototype.startGame = function(){
+	this.mod = prompt('Введите 1 для игры против PC или 2 против человека') * 1;
+	if (this.mod == 2){
+	MonsterFlag();
+	}
 
+	else if (this.mod == 1){
+		MonsterFlagIi();
+	}
+	else if (isNaN(this.mod) || (this.mod !=1 || this.mod!=2)){
+			alert('Не коректный ввод. Введите 1 или 2');
+		}
+}
+Flags.prototype.exitGame = function(){
+	if(this.step == -1){
+		return true;
+		}	
+	return false;
+}	
+Flags.prototype.checkWin = function(){
+	if(this.flags <= 3){
+		return true;
+	}		return false;
+}
+Flags.prototype.validateStep = function(){
+	if(isNaN(this.step)) return false;
+	return true;
+}
+Flags.prototype.checkStep = function(){
+	if( (this.step != 1) && (this.step != 2) && (this.step != 3) ){
+		return false;
+	}
+	return true;
+}
+Flags.prototype.changePlayer = function(){
+
+	this.player = !this.player;
+}
+Flags.prototype.showPlayerStep = function(){
+	if(!this.player){
+		console.log('Игрок 1 походил: ' + this.step);
+	}else{
+		console.log('Игрок 2 походил: ' + this.step);
+	}
+}
+Flags.prototype.showFlagsRest = function(){
+
+ 	console.log( 'В игре осталось '+ this.cost +' флагов');
+}
+Flags.prototype.showWinner = function(){
+	if(!this.player){
+		console.warn('Победил Игрок 1');
+	}else{
+		console.warn('Победил Игрок 2');
+	}
+}
+Flags.prototype.showWinnerIi = function(){
+	if(!this.player){
+		console.warn('Победил II');
+	}else{
+		console.warn('Победил Игрок 2');
+	}
+}
+Flags.prototype.showPlayerStepIi = function(){
+	if(!this.player){
+		console.log('II походил: ' + this.step);
+	}else{
+		console.log('Игрок 2 походил: ' + this.step);
+	}
+}
+Flags.prototype.showAlert = function(){
+	if(this.type == 'validate'){
+		console.error('Не корректный ввод. Введите число');
+	}
+	if(this.type == 'check'){
+		console.error('Не корректный ввод. Введите число от 1 до 3');
+	}
+}
+Flags.prototype.start = function(){
+	this.started = true;
+		if( this.checkWin() ) {
+			this.showWinner();
+			return; 
+		}
+		this.step = prompt('Введите число от 1 до 3') * 1;
+		
+		if( this.exitGame() ) return;
+
+		if( !this.validateStep() ) {
+			this.showAlert('validate');
+			return this.start();
+		}
+		if( !this.checkStep() ) {
+			this.showAlert('check');
+			return this.start();
+		}
+
+		this.cost = this.flags-=this.step;
+
+		this.changePlayer();
+
+		this.showPlayerStep();
+		this.showFlagsRest();
+
+		return this.start();
+}
+
+let flags = new Flags();
+// flags.start();
+// console.log(flags.flags)
