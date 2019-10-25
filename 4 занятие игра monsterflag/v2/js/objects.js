@@ -319,3 +319,5 @@ Flags.prototype.start = function(){
 let flags = new Flags();
 // flags.start();
 // console.log(flags.flags)
+
+//Объекты с наследованием прототипа
